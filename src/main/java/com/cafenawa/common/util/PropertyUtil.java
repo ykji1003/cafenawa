@@ -10,13 +10,16 @@ import java.util.stream.Collectors;
 
 public class PropertyUtil {
 
-    public static Map<Object, Object> getPropertiesAsMap(String filePath) throws IOException {
+    public static Map<String, String> getPropertiesAsMap(String filePath) throws IOException {
 
         Properties properties = new Properties();
         try(InputStream inputStream = new ClassPathResource(filePath).getInputStream()) {
             properties.load(inputStream);
         }
         return properties.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(
+                        entry-> String.valueOf(entry.getKey()),
+                        entry-> String.valueOf(entry.getValue())
+                ));
     }
 }
